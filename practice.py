@@ -1,38 +1,43 @@
-reviews = {
-    "Ayesha": "The service was excellent and staff was awesome.",
-    "Bilal": "It was a bad experience, the food was cold.",
-    "Sarah": "Everything was okay, nothing special.",
-    "Ali": "Good environment and tasty food!",
-    "Zara": "Worst service ever, I won't come again.",
-}
+feedback_list = []
+feedback_result = {}
+positive_feedback = 0
+negative_feedback = 0
+neutral_feedback = 0
 
-negative_reviews = 0
-positive_reviews = 0
-neutral_reviews = 0
+user_feedback_range = int(input("Enter range of feedbacks: "))
 
-for name, comments in reviews.items():
-    print(f"\nName: {name}")
-    print(f"Comments: {comments}")
+for i in range(user_feedback_range):
+    feedback = input(f"Enter your feedback #{i + 1}: ").strip()
+    feedback_list.append(feedback)
 
-    comments_lower = comments.lower()
-
+for j in feedback_list:
+    feedback_lower = j.lower()
     if (
-        "excellent" in comments_lower
-        or "good" in comments_lower
-        or "awesome" in comments_lower
+        "excellent" in feedback_lower
+        or "good" in feedback_lower
+        or "great" in feedback_lower
     ):
-        positive_reviews += 1
+        positive_feedback += 1
+        feedback_result[j] = "Positive"
     elif (
-        "bad" in comments_lower
-        or "worst" in comments_lower
+        "bad" in feedback_lower or "worst" in feedback_lower or "hard" in feedback_lower
     ):
-        negative_reviews += 1
+        negative_feedback += 1
+        feedback_result[j] = "Negative"
     else:
-        neutral_reviews += 1
+        neutral_feedback += 1
+        feedback_result[j] = "Neutral"
 
 print("=" * 30)
-print("\n📊 Summary Report")
-print("-" * 30)
-print(f"Positive Reviews: {positive_reviews}")
-print(f"Negative Reviews: {negative_reviews}")
-print(f"Neutral Reviews: {neutral_reviews}")
+
+# Save to file
+with open("practice.txt", "w", encoding="utf-8") as file:
+    file.write("📊 Feedback Summary:\n")
+    file.write(f"Positive: {positive_feedback}\n")
+    file.write(f"Negative: {negative_feedback}\n")
+    file.write(f"Neutral: {neutral_feedback}\n")
+    file.write("\n📝 Feedback Details:\n")
+    for fb, sentiment in feedback_result.items():
+        file.write(f"• {fb} => {sentiment}\n")
+
+print("✅ File 'practice.txt' saved successfully.")
