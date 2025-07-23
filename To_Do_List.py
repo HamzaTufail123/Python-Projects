@@ -1,41 +1,54 @@
-def Quiz_Game():
-    import random
+def Quiz_Builder():
+    mcqs = []
 
-    mcqs = [
-        {
-            "question": "What is the capital of pakistan?",
-            "options": {"A": "Karachi", "B": "Lahore", "C": "Multan", "D": "Islamabad"},
-            "answer": "D",
-        },
-        {
-            "question": "What is biggest city of Pakistan?",
-            "options": {"A": "Multan", "B": "Gujrawala", "C": "Karachi", "D": "Lahore"},
-            "answer": "C",
-        },
-        {
-            "question": "What is the capital of Russia?",
-            "options": {"A": "Moscow", "B": "St. Peterberg", "C": "Kazan", "D": "Gurzni"},
-            "answer": "A",
-        },
-    ]
-    random.shuffle(mcqs)
+    question_quantity_input = input("How many question would you add? ")
+
+    if not question_quantity_input.isdigit():
+        print("Invalid user input.enter a number.")
+        return []
+    
+    question_quantity = int(question_quantity_input)
+
+    for i in range(question_quantity):
+
+        print(f"\nQuestion # {i + 1}")
+        question_text = input("Type question: ")
+
+        option = {}
+        option["A"] = input("Option A: ")
+        option["B"] = input("Option B: ")
+        option["C"] = input("Option C: ")
+        option["D"] = input("Option D: ")
+
+        correct_option = input("Enter correct option (A/B/C/D): ").upper()
+
+        if correct_option not in ["A", "B", "C", "D"]:
+            print("Invalid input. Skipping this question. ")
+            continue
+
+        mcq = {"question": question_text, "options": option, "answer": correct_option}
+
+        mcqs.append(mcq)
+    return mcqs
+
+
+def MCQs(mcqs):
+    print("-" * 40)
     score = 0
     for mcq in mcqs:
-
-        print(mcq["question"])
-
+        print("\n" + mcq["question"])
         for key, value in mcq["options"].items():
-            print(f"{key}) {value}")
+            print(f"{key}) {value} ")
 
-        user_input = input("Enter right option (A/B/C/D): ").upper()
+        user_input = input("Enter correct option (A/B/C/D): ").upper()
         if user_input not in ["A", "B", "C", "D"]:
-            print("Invaild opton. skipping this mcq. ")
+            print("Invalid option. Skipping this question. ")
             continue
         if user_input == mcq["answer"]:
-            print("Correct\n")
+            print("\n Correct. ")
             score += 1
         else:
-            print(f"Wrong answer. Correct option is: {mcq['answer']}")
+            print(f"Wrong answer! Correct option is: {mcq['answer']}")
 
     average = score / len(mcqs) * 100
     if average >= 90:
@@ -48,25 +61,23 @@ def Quiz_Game():
         grade = "C"
     elif average >= 50:
         grade = "D"
+
     elif average >= 40:
         grade = "F"
-
     else:
-        print("Invalid user input. ")
+        grade = "Fail"
 
-    print("-" * 10, "Result", "-" * 10)
-    print(f"Percentage: {average:.2f}%")
-    print(f"Grade : {grade}")
-    print(f"Game over!")
+    print("=" * 40)
+    print(f"Grade: {grade}")
+    print(f"Percentage: {average:.2f}")
+    print("Game over! ")
+
 
 while True:
-    Quiz_Game()
+    question = Quiz_Builder()
+    MCQs(question)
 
-    re_start = input("Do wanna play again? (yes/no): ").lower()
+    re_start = input("Would you like play again? ").lower()
     if re_start != "yes":
-        print("\nThanks to play this intresting game.")
+        print("Thanks to play this intresting game. ")
         break
-
-
-
-
